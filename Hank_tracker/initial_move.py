@@ -41,7 +41,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
 
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.2)
-    function.add_coordinates(coordinates, drone_lat_long)
+    # function.add_coordinates(coordinates, drone_lat_long)
     move_z = tracker_coordinate[-1][2] - tracker_coordinate[-2][2]
 
     print("Tracker go North 1 m/s")
@@ -60,7 +60,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     # -----------------------------------------------------------------------------------------------
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.01)
-    function.add_coordinates(coordinates, drone_lat_long)
+    # function.add_coordinates(coordinates, drone_lat_long)
     move_y = tracker_coordinate[-1][1] - tracker_coordinate[-2][1]
     # -----------------------------------------------------------------------------------------------
 
