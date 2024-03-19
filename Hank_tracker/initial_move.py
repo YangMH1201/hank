@@ -19,7 +19,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     relative_distances.append(uwb_dist)
     
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
-    function.add_coordinates(coordinates, drone_lat_long)
+    # function.add_coordinates(coordinates, drone_lat_long)
     await asyncio.sleep(0.01)
     
     z_intial = round(tracker_coordinate[-1][2], 3)
