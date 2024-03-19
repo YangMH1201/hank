@@ -60,7 +60,7 @@ async def main():
     print("Mission Complete!")
     await offboard_setup.set_drone_velocity(uavs[0], 0.0, 0.0, 0.0)
     await asyncio.sleep(5)
-    await offboard_setup.stop_offboard_mode(uavs[0])
+    await offboard_setup.stop_offboard_mode(uavs)
 
     print("Landing...")
     await offboard_setup.drones_land(uavs[0])
