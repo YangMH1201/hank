@@ -9,7 +9,7 @@ import time
 from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import (VelocityNedYaw)
 
-def get_uwb_dist(uavs, uwb_info):
+def get_uwb_dist(uwb_info):
     print("Get uwb data....")
     uwb_err = 0
     uwb_dist = uwb_info.get_module_data()
