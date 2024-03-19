@@ -36,7 +36,7 @@ async def start_mission(uavs, drone_lat_long):
     initial_guess = [0.0, 0.0, 0.0]
     past_target_coordinates = []  # 存儲過去的target_coordinates
 
-    velocity_distance = 0.5
+    velocity_distance = 1
     stop_distance = 2.0
     number = 0
     stop_number = 0
