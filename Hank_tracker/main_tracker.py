@@ -2,10 +2,26 @@ import asyncio
 from mavsdk import System
 import offboard_setup
 import find_coordinate
+from uwb_read import UwbModule
 
+def get_uwb_dist(uwb_info):
+    print("Get uwb data....")
+    uwb_err = 0
+    uwb_dist = uwb_info.get_module_data()
+    if uwb_dist == None:
+        while uwb_dist == None:
+            if uwb_err >= 80:
+                print("UWB data err........")
+                uwb_dist = 9999
+                return uwb_dist
+            uwb_dist = uwb_info.get_module_data()
+            uwb_err += 1
+            time.sleep(0.025)
+    uwb_dist = float(uwb_dist)
+    return uwb_dist
 
 async def main():
-
+    uwb_info = UwbModule()
     # initialize paramters
     tracker_height = 5.0
 
@@ -25,8 +41,19 @@ async def main():
     await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
     await asyncio.sleep(0.1)
 
+    """ uwb status check """
+    uwb_dist = get_uwb_dist(uwb_info)
+    if uwb_dist == 9999:
+        await offboard_setup.set_drone_velocity(uavs[0], 0.0, 0.0, 0.0)
+        await asyncio.sleep(5)
+        await offboard_setup.stop_offboard_mode(uavs)
+        await uavs[0].action.land()
+        raise
+    print(f"Initial uwb dist = {uwb_dist}")
+    print("UWB info stable...")
+    
     # Algorithm to update the target
-    await find_coordinate.start_mission(uavs, drone_lat_long)
+    await find_coordinate.start_mission(uavs, drone_lat_long, uwb_info)
 
     # close to the target
     print("Mission Complete!")
