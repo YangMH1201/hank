@@ -13,15 +13,16 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     uav_tracker = uavs[0]
     tracker_imu_coordinate = []
     distance = 0.0
-    tracker_imu_coordinate.append([0.0, 0.0, 0.0])
 
     print("-------Start intial movement--------")
     # UWB distance
     uwb_dist = uwb_info.get_module_data()
     relative_distances.append(uwb_dist)
+    
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
+    function.add_coordinates(coordinates, drone_lat_long)
     await asyncio.sleep(0.01)
-
+    
     z_intial = round(tracker_coordinate[-1][2], 3)
     # 往x, y, z方向移動-------------------------------------------------------------------------
     print("Tracker go up 1 m/s")
@@ -29,8 +30,8 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     # await move_uav(uav_tracker, VelocityNedYaw(0.0, 0.0, -1.0, 0), 1.0)
     # 2023.12.19-----------------------------------------------------
     velocity_ned_yaw = VelocityNedYaw(0.0, 0.0, -1.0, 0)
-    tracker_move_task = move_uav(uav_tracker, velocity_ned_yaw, 1.0)
-    await tracker_move_task
+    # tracker_move_task = move_uav(uav_tracker, velocity_ned_yaw, 1.0)
+    # await tracker_move_task
 
     await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
     await asyncio.sleep(0.01)
@@ -47,10 +48,10 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     print("Tracker go North 1 m/s")
     # 2023.12.19-----------------------------------------------------
     velocity_ned_yaw = VelocityNedYaw(1.0, 0.0, 0.0, 0)
-    tracker_move_task = move_uav(uav_tracker, velocity_ned_yaw, 1.0)
-    await tracker_move_task
+    await asyncio.sleep(1)
+    # tracker_move_task = move_uav(uav_tracker, velocity_ned_yaw, 1.0)
+    # await tracker_move_task
 
-    # await asyncio.sleep(1)
     await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
     await asyncio.sleep(0.2)
 
@@ -71,8 +72,9 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     # await move_uav(uav_tracker, VelocityNedYaw(0.0, 1.0, 0.0, 0), 1.0)
     # 2023.12.19-----------------------------------------------------
     velocity_ned_yaw = VelocityNedYaw(0.0, 1.0, 0.0, 0)
-    tracker_move_task = move_uav(uav_tracker, velocity_ned_yaw, 1.0)
-    await tracker_move_task
+    await asyncio.sleep(1)
+    # tracker_move_task = move_uav(uav_tracker, velocity_ned_yaw, 1.0)
+    # await tracker_move_task
 
     await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
     await asyncio.sleep(0.1)
