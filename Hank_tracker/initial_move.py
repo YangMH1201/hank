@@ -33,7 +33,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
 
     print("-------Start intial movement--------")
     # UWB distance
-    uwb_dist = uwb_info.get_module_data()
+    uwb_dist = get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
     
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
@@ -99,10 +99,6 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
 
     await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
     await asyncio.sleep(0.1)
-
-    # UWB distance
-    uwb_dist = uwb_info.get_module_data()
-    relative_distances.append(uwb_dist)
     # -----------------------------------------------------------------------------------------------
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.1)
