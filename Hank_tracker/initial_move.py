@@ -35,7 +35,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     # UWB distance
     uwb_dist = get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
-    
+    print("distance0 ={uwb_dist}")
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     # function.add_coordinates(coordinates, drone_lat_long)
     await asyncio.sleep(0.01)
@@ -56,7 +56,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     # UWB distance
     uwb_dist = get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
-
+    print("distance1 ={relative_distances[-1]}")
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.2)
     # function.add_coordinates(coordinates, drone_lat_long)
@@ -75,6 +75,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     # UWB distance
     uwb_dist = get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
+    print("distance2 ={relative_distances[-1]}")
     # -----------------------------------------------------------------------------------------------
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.01)
@@ -93,6 +94,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     # UWB distance
     uwb_dist = get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
+    print("distance3 ={relative_distances[-1]}")
     # -----------------------------------------------------------------------------------------------
     # tracker_move_task = move_uav(uav_tracker, velocity_ned_yaw, 1.0)
     # await tracker_move_task
