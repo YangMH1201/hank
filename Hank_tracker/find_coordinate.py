@@ -46,7 +46,7 @@ async def start_mission(uavs, drone_lat_long):
     # initial_velocity = await function.calculate_initial_velocity(drone_lat_long)
     initial_velocity = 1.0
     # Start intiial movement to find the target
-    await initial_move.initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_distances, coordinates, initial_guess, uwb_info)
+    await initial_move.initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_distances, coordinates, initial_guess)
 
     distance = relative_distances[-1]
 
