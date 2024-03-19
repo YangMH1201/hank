@@ -19,7 +19,7 @@ async def main():
     await asyncio.sleep(1)
 
     await offboard_setup.set_drone_velocity(uavs[0], 0.0, 0.0, 0.0)
-    await offboard_setup.get_drone_long_lat(uavs[0], drone_lat_long)
+    await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
     await offboard_setup.get_drone_local_pos(uavs, drone_lat_long)
 
     await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
