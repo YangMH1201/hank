@@ -11,7 +11,6 @@ from mavsdk.offboard import (VelocityNedYaw)
 async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_distances, coordinates, initial_guess, uwb_info):
     # 一開始找目標位置-------------------------------------------------------------------------
     uav_tracker = uavs[0]
-    tracker_imu_coordinate = []
     distance = 0.0
 
     print("-------Start intial movement--------")
