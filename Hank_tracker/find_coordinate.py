@@ -4,12 +4,10 @@ import function
 import initial_move
 from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import VelocityNedYaw
-from uwb_read import UwbModule
 import time
 
 
-def get_uwb_dist():
-    uwb_info = UwbModule()
+def get_uwb_dist(uwb_info):
     print("Get uwb data....")
     uwb_err = 0
     uwb_dist = uwb_info.get_module_data()
@@ -26,7 +24,7 @@ def get_uwb_dist():
     return uwb_dist
 
 
-async def start_mission(uavs, drone_lat_long):
+async def start_mission(uavs, drone_lat_long, uwb_info):
     uav_tracker = uavs[0]
     interval = 0.1
     # initialize paramters
@@ -90,7 +88,7 @@ async def start_mission(uavs, drone_lat_long):
         # -----------------------------------------------------------------------------------------------
         # UWB distance
         # await function.distance_data(relative_distances)
-        relative_distances.append(get_uwb_dist())
+        relative_distances.append(get_uwb_dist(uwb_info))
 
         if isinstance(target_position, np.ndarray):
             target_position = target_position
