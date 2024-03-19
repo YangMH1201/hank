@@ -9,7 +9,7 @@ import time
 from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import (VelocityNedYaw)
 
-async def get_uwb_dist(uwb_info):
+asyncdef get_uwb_dist(uwb_info):
         uwb_err = 0
         uwb_dist = uwb_info.get_module_data()
         if uwb_dist == None:
@@ -36,7 +36,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
 
     print("-------Start intial movement--------")
     # UWB distance
-    uwb_dist = get_uwb_dist(uwb_info)
+    uwb_dist = await get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
     print(f"distance0 ={uwb_dist}")
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
@@ -57,7 +57,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     await asyncio.sleep(0.01)
 
     # UWB distance
-    uwb_dist = get_uwb_dist(uwb_info)
+    uwb_dist = await get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
     print(f"distance1 ={relative_distances[-1]}")
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
@@ -76,7 +76,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     await asyncio.sleep(0.2)
 
     # UWB distance
-    uwb_dist = get_uwb_dist(uwb_info)
+    uwb_dist = await get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
     print(f"distance2 ={relative_distances[-1]}")
     # -----------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     velocity_ned_yaw = VelocityNedYaw(0.0, 1.0, 0.0, 0)
     await asyncio.sleep(1)
     # UWB distance
-    uwb_dist = get_uwb_dist(uwb_info)
+    uwb_dist = await get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
     print(f"distance3 ={relative_distances[-1]}")
     # -----------------------------------------------------------------------------------------------
