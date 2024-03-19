@@ -7,7 +7,7 @@ import function
 from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import (VelocityNedYaw)
 
-async def get_uwb_dist(uavs, uwb_info):
+async def get_uwb_dist(uwb_info):
         uwb_err = 0
         uwb_dist = uwb_info.get_module_data()
         if uwb_dist == None:
