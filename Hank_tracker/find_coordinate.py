@@ -5,6 +5,7 @@ import initial_move
 from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import VelocityNedYaw
 import time
+import csv
 
 
 def get_uwb_dist(uwb_info):
@@ -56,8 +57,9 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
             stop_number = 0
 
         if stop_number >= 5:
+            save_data_to_csv(tracker_coordinate, relative_distances, past_target_coordinates)
             break  # 如果距离小于停止距离，则结束循环
-        if distance >=10:
+        if distance >=20:
             break
         # target_position = estimate_3d_target(initial_guess, tracker_coordinate[:], relative_distances[:])
         target_position = gradient_descent_method(
@@ -322,3 +324,17 @@ def mle_method(initial_guess, drone_positions, relative_distances, noise_varianc
     else:
         print(f"Optimization failed: {result.message}")
         return None
+
+def save_data_to_csv(tracker_coordinate, relative_distances, past_target_coordinates, filename="uav_tracking_data.csv"):
+    # Open the file in write mode
+    with open(filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+
+        # Write the header
+        writer.writerow(["Tracker Coordinate", "Relative Distances", "Past Target Coordinates"])
+
+        # Assuming all lists are of the same length
+        for i in range(len(tracker_coordinate)):
+            writer.writerow([tracker_coordinate[i], relative_distances[i], past_target_coordinates[i]])
+
+    print(f"Data saved to {filename}")
