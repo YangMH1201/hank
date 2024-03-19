@@ -28,7 +28,6 @@ def get_uwb_dist(uwb_info):
 async def start_mission(uavs, drone_lat_long):
     uwb_info = UwbModule()
     uav_tracker = uavs[0]
-    uav_target = uavs[1]
     interval = 0.1
     # initialize paramters
     tracker_coordinate = []
