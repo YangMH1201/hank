@@ -6,7 +6,7 @@ from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import VelocityNedYaw
 import time
 import csv
-
+import datetime
 
 def get_uwb_dist(uwb_info):
     print("Get uwb data....")
@@ -57,7 +57,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
             stop_number = 0
 
         if stop_number >= 5:
-            save_data_to_csv(tracker_coordinate, relative_distances, past_target_coordinates)
+            save_data_to_csv_with_timestamp(tracker_coordinate, relative_distances, past_target_coordinates)
             break  # 如果距离小于停止距离，则结束循环
         if distance >=20:
             break
@@ -325,7 +325,14 @@ def mle_method(initial_guess, drone_positions, relative_distances, noise_varianc
         print(f"Optimization failed: {result.message}")
         return None
 
-def save_data_to_csv(tracker_coordinate, relative_distances, past_target_coordinates, filename="uav_tracking_data.csv"):
+def save_data_to_csv_with_timestamp(tracker_coordinate, relative_distances, past_target_coordinates):
+    # Get the current date and time
+    now = datetime.datetime.now()
+    # Format the date and time as a string in the format 'YYYY-MM-DD_HH-MM-SS'
+    timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
+    # Create a filename using the current date and time
+    filename = f"uav_tracking_data_{timestamp}.csv"
+
     # Open the file in write mode
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
@@ -338,3 +345,4 @@ def save_data_to_csv(tracker_coordinate, relative_distances, past_target_coordin
             writer.writerow([tracker_coordinate[i], relative_distances[i], past_target_coordinates[i]])
 
     print(f"Data saved to {filename}")
+
