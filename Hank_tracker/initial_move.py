@@ -7,6 +7,24 @@ import function
 from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import (VelocityNedYaw)
 
+async def get_uwb_dist(uavs, uwb_info):
+        uwb_err = 0
+        uwb_dist = uwb_info.get_module_data()
+        if uwb_dist == None:
+            while uwb_dist == None:
+                if uwb_err >= 80:
+                    print("UWB data err........")
+                    await offboard_setup.set_drone_velocity(uavs[0], 0.0, 0.0, 0.0)
+                    await asyncio.sleep(5)
+                    await offboard_setup.stop_offboard_mode(uavs)
+                    await uavs[0].action.land()
+                    raise
+                uwb_dist = uwb_info.get_module_data()
+                uwb_err += 1
+                time.sleep(0.05)
+        uwb_dist = float(uwb_dist)
+
+        return uwb_dist
 
 async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_distances, coordinates, initial_guess, uwb_info):
     # 一開始找目標位置-------------------------------------------------------------------------
@@ -36,7 +54,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     await asyncio.sleep(0.01)
 
     # UWB distance
-    uwb_dist = uwb_info.get_module_data()
+    uwb_dist = get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
 
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
@@ -55,7 +73,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     await asyncio.sleep(0.2)
 
     # UWB distance
-    uwb_dist = uwb_info.get_module_data()
+    uwb_dist = get_uwb_dist(uwb_info)
     relative_distances.append(uwb_dist)
     # -----------------------------------------------------------------------------------------------
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
@@ -72,6 +90,10 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     # 2023.12.19-----------------------------------------------------
     velocity_ned_yaw = VelocityNedYaw(0.0, 1.0, 0.0, 0)
     await asyncio.sleep(1)
+    # UWB distance
+    uwb_dist = get_uwb_dist(uwb_info)
+    relative_distances.append(uwb_dist)
+    # -----------------------------------------------------------------------------------------------
     # tracker_move_task = move_uav(uav_tracker, velocity_ned_yaw, 1.0)
     # await tracker_move_task
 
