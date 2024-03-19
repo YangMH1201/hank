@@ -8,7 +8,8 @@ from uwb_read import UwbModule
 import time
 
 
-def get_uwb_dist(uwb_info):
+def get_uwb_dist():
+    uwb_info = UwbModule()
     print("Get uwb data....")
     uwb_err = 0
     uwb_dist = uwb_info.get_module_data()
@@ -26,7 +27,6 @@ def get_uwb_dist(uwb_info):
 
 
 async def start_mission(uavs, drone_lat_long):
-    uwb_info = UwbModule()
     uav_tracker = uavs[0]
     interval = 0.1
     # initialize paramters
@@ -90,7 +90,7 @@ async def start_mission(uavs, drone_lat_long):
         # -----------------------------------------------------------------------------------------------
         # UWB distance
         # await function.distance_data(relative_distances)
-        relative_distances.append(get_uwb_dist(uwb_info))
+        relative_distances.append(get_uwb_dist())
 
         if isinstance(target_position, np.ndarray):
             target_position = target_position
