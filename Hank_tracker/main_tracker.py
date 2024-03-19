@@ -2,6 +2,7 @@ import asyncio
 from mavsdk import System
 import offboard_setup
 import find_coordinate
+import time
 from uwb_read import UwbModule
 
 def get_uwb_dist(uwb_info):
