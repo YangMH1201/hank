@@ -57,6 +57,8 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
 
         if stop_number >= 5:
             break  # 如果距离小于停止距离，则结束循环
+        if distance >=10:
+            break
         # target_position = estimate_3d_target(initial_guess, tracker_coordinate[:], relative_distances[:])
         target_position = gradient_descent_method(
             initial_guess, tracker_coordinate[-10:], relative_distances[-10:])
