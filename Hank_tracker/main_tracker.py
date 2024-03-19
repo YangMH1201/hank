@@ -63,7 +63,7 @@ async def main():
     await offboard_setup.stop_offboard_mode(uavs)
 
     print("Landing...")
-    await offboard_setup.drones_land(uavs[0])
+    await offboard_setup.drones_land(uavs)
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
