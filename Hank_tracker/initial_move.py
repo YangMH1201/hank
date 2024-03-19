@@ -11,15 +11,14 @@ from mavsdk.offboard import (VelocityNedYaw)
 async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_distances, coordinates, initial_guess):
     # 一開始找目標位置-------------------------------------------------------------------------
     uav_tracker = uavs[0]
-    uav_target = uavs[1]
     tracker_imu_coordinate = []
     distance = 0.0
     tracker_imu_coordinate.append([0.0, 0.0, 0.0])
 
     print("-------Start intial movement--------")
     # UWB distance
-    await function.distance_data(relative_distances)
-
+    uwb_dist = uwb_info.get_module_data()
+    relative_distances.append(uwb_dist)
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.01)
 
@@ -37,7 +36,8 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     await asyncio.sleep(0.01)
 
     # UWB distance
-    await function.distance_data(relative_distances)
+    uwb_dist = uwb_info.get_module_data()
+    relative_distances.append(uwb_dist)
 
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.2)
@@ -55,7 +55,8 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     await asyncio.sleep(0.2)
 
     # UWB distance
-    await function.distance_data(relative_distances)
+    uwb_dist = uwb_info.get_module_data()
+    relative_distances.append(uwb_dist)
     # -----------------------------------------------------------------------------------------------
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.01)
@@ -77,8 +78,8 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     await asyncio.sleep(0.1)
 
     # UWB distance
-    await function.distance_data(relative_distances)
-
+    uwb_dist = uwb_info.get_module_data()
+    relative_distances.append(uwb_dist)
     # -----------------------------------------------------------------------------------------------
     await offboard_setup.local_position(uav_tracker, tracker_coordinate)
     await asyncio.sleep(0.1)
