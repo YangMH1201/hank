@@ -3,4 +3,4 @@ git clone https://github.com/YangMH1201/hank.git
 
 cd Desktop/hank
 
-git pull origin master
+git pull origin main
