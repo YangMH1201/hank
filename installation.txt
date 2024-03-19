@@ -1,0 +1,24 @@
+install ROS in raspberry pi 4
+https://varhowto.com/install-ros-noetic-raspberry-pi-4/
+https://hackmd.io/@NCTU-auv/HygPaXkft
+https://docs.px4.io/v1.12/en/ros/mavros_installation.html
+https://junmo1215.github.io/tutorial/2019/07/14/tutorial-install-ROS-and-mavros-in-raspberry-pi.html
+https://www.notion.so/hao-po/Ubuntu-20-04-ROS-noetic-Jul-27-2023-010efcafd683416d8a0ead8c754025e5
+
+--------------------------------------
+DeepNav
+https://github.com/majuid/DeepNav
+
+
+pip install rospkg
+pip install rosdistro
+sudo apt-get install python-rosdistro
+pip install --upgrade rosinstall-generator
+rosinstall_generator --rosdistro noetic mavlink | tee /tmp/mavros.rosinstall
+rosinstall_generator --rosdistro noetic --upstream mavros | tee -a /tmp/mavros.rosinstall
+rosdep install --from-paths src --ignore-src -y --rosdistro noetic
+
+
+=============================
+updated cache in /home/user/.ros/rosdep/sources.cache
+
