@@ -3,6 +3,7 @@ import numpy as np
 import threading
 import offboard_setup
 import function
+from uwb_read import UwbModule
 
 from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import (VelocityNedYaw)
@@ -26,8 +27,9 @@ async def get_uwb_dist(uwb_info):
 
         return uwb_dist
 
-async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_distances, coordinates, initial_guess, uwb_info):
+async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_distances, coordinates, initial_guess):
     # 一開始找目標位置-------------------------------------------------------------------------
+    uwb_info = UwbModule()
     uav_tracker = uavs[0]
     distance = 0.0
 
