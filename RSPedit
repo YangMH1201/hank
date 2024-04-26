@@ -1,0 +1,27 @@
+DEVICE
+ls /sys/class/tty/ttyUSB* -l
+sudo nano /etc/udev/rules.d/10-local.rules
+--------------------------------------
+ACTION=="add", KERNELS=="1-1.3:1.0", SUBSYSTEMS=="usb", MODE:="0777", SYMLINK+="ttyUSB_PX4"
+ACTION=="add", KERNELS=="1-1.4:1.0", SUBSYSTEMS=="usb", MODE:="0777", SYMLINK+="ttyUSB_UWB"
+
+
+======Raspberry Pi 自動切換WIFI教學=====================================================================
+sudo raspi-config
+cd /etc/network/
+sudo cp interfaces interfaces-copy
+sudo nano interfaces (改寫裡面的檔案)
+-------------------------------------------------------------------------------
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+文件內容(優先度數值越大越高)
+---------------------------------------------------------------------------
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=TW
+
+network={
+        ssid="Your SSID"
+        psk="Your PASSWORD"
+        key_mgmt=WPA-PSK
+        priority=3
+}
