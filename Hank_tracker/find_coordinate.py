@@ -140,9 +140,9 @@ def estimate_3d_target(initial_guess, drone_positions, relative_distances):
             residuals.append(predicted_distance - d_relative)
         return residuals
 
-    # # 使用最小二乘法拟合目标位置
+    # 使用最小二乘法拟合目标位置，指定使用 LM 算法
     result = least_squares(objective_function, initial_guess, args=(
-        drone_positions, relative_distances))
+        drone_positions, relative_distances), method='lm')
 
     # 获取估计的目标位置
     if result.success:
