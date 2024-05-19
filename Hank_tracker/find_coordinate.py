@@ -78,8 +78,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
         else:
             # 限制速度在最小和最大值之間
             velocity = max(0.0, min(velocity, 1.0))
-            target_position = mle_method(
-                target_position, tracker_coordinate[-5:], relative_distances)
+            # target_position = mle_method(target_position, tracker_coordinate[-5:], relative_distances)
             Vx, Vy, Vz = follow_me(
                 tracker_coordinate[-1], target_position, velocity, relative_distances[-1], velocity_distance)
             # Vz = max(-0.2, min(0.2, Vz))
@@ -216,7 +215,7 @@ def follow_me(current_position, target_position, speed, uwb_distance, distance_t
 
     # velocity_z = max(-0.5, min(0.5, velocity_z))
 
-    return velocity_x, velocity_y, 0
+    return velocity_x, velocity_y, velocity_z
 
 # Method to find the target coordinate
 
