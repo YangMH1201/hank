@@ -40,6 +40,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
     number = 0
     stop_number = 0
     count = 0
+    distance_count = 0
 
     # find the initial tracking velocity
     # initial_velocity = await function.calculate_initial_velocity(drone_lat_long)
@@ -104,6 +105,11 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
         predict_distance = np.linalg.norm(
             np.array(tracker_coordinate[-1]) - np.array(target_position))
 
+        if relative_distances[-1] > relative_distances[-2]
+            distance_count += 1
+            if distance_count >= 5
+                number = 0
+                distance_count = 0
         # 检查条件是否满足，并更新计数器
         if predict_distance < distance:
             count += 1
