@@ -216,7 +216,7 @@ def follow_me(current_position, target_position, speed, uwb_distance, distance_t
 
     # velocity_z = max(-0.5, min(0.5, velocity_z))
 
-    return velocity_x, velocity_y, velocity_z
+    return velocity_x, velocity_y, 0
 
 # Method to find the target coordinate
 
