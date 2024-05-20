@@ -95,6 +95,8 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
         relative_distances.append(get_uwb_dist(uwb_info))
         distance = relative_distances[-1]
         print(f"distance={distance}")
+        await offboard_setup.local_position(uav_tracker, tracker_coordinate)
+        await asyncio.sleep(0.01)
 
         if isinstance(target_position, np.ndarray):
             target_position = target_position
