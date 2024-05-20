@@ -115,7 +115,7 @@ async def initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_di
     diff_z = initial_guess[2] - tracker_coordinate[-1][0]
     initial_guess[0], initial_guess[1] = function.initial_target(
         relative_distances[-3], relative_distances[-2], relative_distances[-1], move_y, move_x, diff_z, diff_z, diff_z, tracker_coordinate)
-    # initial_guess = gradient_descent_method(initial_guess, tracker_coordinate[-4:], relative_distances[-4:])
+    initial_guess = gradient_descent_method(initial_guess, tracker_coordinate[-4:], relative_distances[-4:])
     print(f"guess target position: {initial_guess}")
 
     print("====================================================")
