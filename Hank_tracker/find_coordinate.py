@@ -91,7 +91,6 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
 
         # -----------------------------------------------------------------------------------------------
         # UWB distance
-        # await function.distance_data(relative_distances)
         relative_distances.append(get_uwb_dist(uwb_info))
         distance = relative_distances[-1]
         print(f"distance={distance}")
