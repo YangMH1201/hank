@@ -91,7 +91,7 @@ async def get_drone_long_lat(drones, boids):
         async for position in drone.telemetry.position():
             boids[num].latitude = position.latitude_deg
             boids[num].longitude = position.longitude_deg
-            boids[num].altitude = (-1)*position.relative_altitude_m
+            boids[num].altitude = position.relative_altitude_m
             await asyncio.sleep(0.01)
             break
 
