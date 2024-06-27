@@ -2,6 +2,7 @@ import asyncio
 import numpy as np
 import function
 import initial_move
+import offboard_setup
 from scipy.optimize import least_squares, minimize
 from mavsdk.offboard import VelocityNedYaw
 import time
