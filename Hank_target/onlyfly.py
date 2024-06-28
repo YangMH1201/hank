@@ -26,6 +26,7 @@ async def main():
         print("Start Algo")
         asyncio.ensure_future(offboard_setup.set_drone_velocity(
             uavs[0], velocity_North, velocity_East, velocity_down))
+    await asyncio.sleep(5)
 
     # Stop the mission, and land the drone
     print(f"Reach avoidance range : {uwb_dist}")
