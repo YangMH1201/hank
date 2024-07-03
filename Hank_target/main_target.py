@@ -12,7 +12,7 @@ async def main():
     # initialize paramters
     target_height = 3.0
     approach_distance = 2.0
-    velocity_North = 0.4
+    velocity_North = 0.1
     velocity_East = 0.0
     velocity_down = 0.0
 
