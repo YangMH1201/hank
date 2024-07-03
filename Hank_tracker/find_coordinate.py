@@ -50,9 +50,9 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
     await initial_move.initial_movement(uavs, drone_lat_long, tracker_coordinate, relative_distances, coordinates, initial_guess, uwb_info)
 
     distance = relative_distances[-1]
-
+    
     while True:
-
+        initial_guess[2] = 3
         if distance < stop_distance:
             stop_number += 1
         else:
