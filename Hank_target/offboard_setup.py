@@ -10,7 +10,7 @@ from drone_info import Drone_Info
 
 async def drones_connect(drones):
     for num, drone in enumerate(drones):
-        await drone.connect(system_address="serial:///dev/ttyUSB_PX4:921600")
+        await drone.connect(system_address="serial:///dev/ttyUSB0:921600")
 
         async for state in drone.core.connection_state():
             if state.is_connected:
