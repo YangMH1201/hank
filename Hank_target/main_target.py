@@ -10,7 +10,7 @@ async def main():
     uwb_info = UwbModule()
 
     # initialize paramters
-    target_height = 2.0
+    target_height = 3.0
     approach_distance = 2.0
     velocity_North = 0.4
     velocity_East = 0.0
