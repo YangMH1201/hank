@@ -122,12 +122,6 @@ async def set_drone_velocity(drone, velocity_N, velocity_E, velocity_D):
     await drone.offboard.set_velocity_ned(VelocityNedYaw(velocity_N, velocity_E, velocity_D, 0.0))
 
 
-async def set_drone_circle(drone):
-    print("-- Fly a circle")
-    await drone.offboard.set_velocity_body(
-        VelocityBodyYawspeed(1.0, 0.0, 0.0, 60.0))
-    await asyncio.sleep(30)
-
 
 async def stop_offboard_mode(drones):
     for drone in drones:
