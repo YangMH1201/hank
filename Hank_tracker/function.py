@@ -19,26 +19,26 @@ def z_guess(distance1, distance2, move_rate, z_initial):
 
 # 利用固定點迭代, 兩次距離計算目標位置
 
-# def fun(distance1, distance2, move_rate, angle):
-#     up = (distance2**2 - distance1**2 + move_rate**2 + 2 * move_rate * distance2 *
-#           (-angle**3 / math.factorial(3) + angle**5 / math.factorial(5) - angle**7 / math.factorial(7)))
-#     down = -2 * move_rate * distance2
-#     return up / down
-
-
 def fun(distance1, distance2, move_rate, angle):
-    try:
-        up = (distance2**2 - distance1**2 + move_rate**2 +
-              2 * move_rate * distance2 * math.sin(angle))
-        down = -2 * move_rate * distance2
+    up = (distance2**2 - distance1**2 + move_rate**2 + 2 * move_rate * distance2 *
+          (-angle**3 / math.factorial(3) + angle**5 / math.factorial(5) - angle**7 / math.factorial(7)))
+    down = -2 * move_rate * distance2
+    return up / down
 
-        if down == 0:
-            return None
-        return up / down
-    except OverflowError:
-        # Handle the overflow error, perhaps by logging it or setting a default value
-        print("Overflow error occurred in fun function")
-        return 0  # or some other default value
+
+# def fun(distance1, distance2, move_rate, angle):
+#     try:
+#         up = (distance2**2 - distance1**2 + move_rate**2 +
+#               2 * move_rate * distance2 * math.sin(angle))
+#         down = -2 * move_rate * distance2
+
+#         if down == 0:
+#             return None
+#         return up / down
+#     except OverflowError:
+#         # Handle the overflow error, perhaps by logging it or setting a default value
+#         print("Overflow error occurred in fun function")
+#         return 0  # or some other default value
 
 
 def fixed_point_iteration(distance1, distance2, move_rate, initial_guess=0, tolerance=1e-6, max_iterations=250):
@@ -160,23 +160,6 @@ def rotate_point(relative_point, theta_rad, origin):
 
     return absolute_point
 
-# UWB distance data(we used GPS data to find the distance)-------------------------------------------------------------
-
-
-async def gps_distance(uavs, drone_lat_long, relative_distances, target_coordinate, tracker_coordinate, coordinates):
-    lat_long_distance = lat_long_dist()
-    await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
-    await asyncio.sleep(0.5)  # 模拟每 0.5 秒获取一次距离
-    distance = lat_long_distance.getDistance(drone_lat_long[0].longitude, drone_lat_long[0].latitude, drone_lat_long[0].altitude,
-                                             drone_lat_long[1].longitude, drone_lat_long[1].latitude, drone_lat_long[1].altitude)
-    print(f"distance: {distance:7.3f}")
-    relative_distances.append(distance)
-    await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
-    await offboard_setup.local_position(uavs[0], tracker_coordinate)
-    await offboard_setup.local_position(uavs[1], target_coordinate)
-    add_coordinates(coordinates, drone_lat_long)
-
-
 def add_coordinates(coordinates, drone_lat_long):
     tracker_gps = (drone_lat_long[0].longitude,
                    drone_lat_long[0].latitude, drone_lat_long[0].altitude)
@@ -184,60 +167,6 @@ def add_coordinates(coordinates, drone_lat_long):
                   drone_lat_long[1].latitude, drone_lat_long[1].altitude)
     coordinates.append((tracker_gps, target_gps))
 
-# Speed Estimation Model =============================================================================================
-
-
-def speed_estimate_function(distance, time_rate):
-    velocity = ((distance[-1]**2+distance[-3]**2-2 *
-                distance[-2]**2)/2*time_rate**2)**0.5
-    return velocity
-
-
-async def calculate_initial_velocity(drone_lat_long):
-    relative_distances = []
-    number_of_measurements = 3
-    measurement_interval = 0.5  # seconds
-
-    for _ in range(number_of_measurements):
-        distance = lat_long_distance.getDistance(drone_lat_long[0].longitude, drone_lat_long[0].latitude, drone_lat_long[0].altitude,
-                                                 drone_lat_long[1].longitude, drone_lat_long[1].latitude, drone_lat_long[1].altitude)
-        print(f"speed estimation distance: {distance:7.3f}")
-        relative_distances.append(distance)
-        await asyncio.sleep(measurement_interval)
-
-    initial_velocity = speed_estimate_function(
-        relative_distances, measurement_interval)
-    initial_velocity = initial_velocity + \
-        1.0 if initial_velocity > 1.0 else initial_velocity * 10
-    initial_velocity = max(1, min(3, initial_velocity))
-    print(f"initial_velocity: {initial_velocity:7.3f}")
-    return initial_velocity
-
-# local position by IMU+KF =========================================================================================
-
-
-class SimpleKalmanFilter:
-    def __init__(self, process_variance, estimated_measurement_variance):
-        self.process_variance = process_variance
-        self.estimated_measurement_variance = estimated_measurement_variance
-        self.posteri_estimate = 0.0
-        self.posteri_error_estimate = 1.0  # 可以调整这个值
-
-    def update(self, measurement):
-        # 更新过程（可能需要调整方差值）
-        priori_estimate = self.posteri_estimate
-        priori_error_estimate = self.posteri_error_estimate + self.process_variance
-
-        blending_factor = priori_error_estimate / \
-            (priori_error_estimate + self.estimated_measurement_variance)
-        self.posteri_estimate = priori_estimate + \
-            blending_factor * (measurement - priori_estimate)
-        self.posteri_error_estimate = (
-            1 - blending_factor) * priori_error_estimate
-
-        return self.posteri_estimate
-
-# -----------------------------------------------------------------------------------------------
 # 2024.02.23 UWB distance data
 
 
