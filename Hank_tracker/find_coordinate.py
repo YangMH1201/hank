@@ -104,22 +104,15 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
         past_target_coordinates.append(target_position)
         number += 1
 
-        predict_distance = np.linalg.norm(
-            np.array(tracker_coordinate[-1]) - np.array(target_position))
+        sum_last_five = relative_distances[-1] + relative_distances[-2] + relative_distances[-3] + relative_distances[-4] + relative_distances[-5]
 
-        if relative_distances[-1] > relative_distances[-2]:
-            distance_count += 1
-            if distance_count >= 5:
-                number = 0
-                distance_count = 0
-        # 检查条件是否满足，并更新计数器
-        if predict_distance < distance:
-            count += 1
-            if count == 5:
-                number = 0  # 重置number为0
-                count = 0  # 重置计数器
-        else:
-            count = 0  # 如果条件不满足，则重置计数器
+            if relative_distances[-1] > relative_distances[-2]:
+                count += 1
+                if count == 5 and (sum_last_five / 5) < (relative_distances[-1] + 2):
+                    number = 0  # 重置number为0
+                    count = 0  # 重置计数器
+            else:
+                count = 0  # 如果条件不满足，则重置计数器
 
 
 def estimate_3d_target(initial_guess, drone_positions, relative_distances):
