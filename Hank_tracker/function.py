@@ -159,18 +159,3 @@ def rotate_point(relative_point, theta_rad, origin):
     absolute_point = rotated_point + origin_array
 
     return absolute_point
-
-def add_coordinates(coordinates, drone_lat_long):
-    tracker_gps = (drone_lat_long[0].longitude,
-                   drone_lat_long[0].latitude, drone_lat_long[0].altitude)
-    target_gps = (drone_lat_long[1].longitude,
-                  drone_lat_long[1].latitude, drone_lat_long[1].altitude)
-    coordinates.append((tracker_gps, target_gps))
-
-# 2024.02.23 UWB distance data
-
-
-async def distance_data(relative_distances):
-    distance = await uwb_read.UWB_distance()
-    print(f"distance: {distance:7.3f}")
-    relative_distances.append(distance)
