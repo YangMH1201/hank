@@ -33,7 +33,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
     tracker_coordinate = []
     relative_distances = []
     coordinates = []
-    initial_guess = [0.0, 0.0, 0.0]
+    initial_guess = [0.0, 0.0, 3.0]
     past_target_coordinates = []  # 存儲過去的target_coordinates
 
     velocity_distance = 1
@@ -79,10 +79,9 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
         else:
             # 限制速度在最小和最大值之間
             velocity = max(0.0, min(velocity, 1.0))
-            # target_position = mle_method(target_position, tracker_coordinate[-5:], relative_distances)
             Vx, Vy, Vz = follow_me(
                 tracker_coordinate[-1], target_position, velocity, relative_distances[-1], velocity_distance)
-            # Vz = max(-0.2, min(0.2, Vz))
+            Vz = max(-0.2, min(0.2, Vz))
         print(f"--------------------------------------------------")
         print(f"predict target_coordinate: {target_position}")
 
@@ -104,8 +103,16 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
         past_target_coordinates.append(target_position)
         number += 1
 
-        sum_last_five = relative_distances[-1] + relative_distances[-2] + relative_distances[-3] + relative_distances[-4] + relative_distances[-5]
-
+        # 检查列表是否至少有5个元素
+        if len(relative_distances) >= 5:
+            # 计算最后五个元素的和
+            sum_last_five = sum(relative_distances[-5:])
+        
+            # 初始化计数器
+            count = 0
+            number = 0
+        
+            # 判断条件
             if relative_distances[-1] > relative_distances[-2]:
                 count += 1
                 if count == 5 and (sum_last_five / 5) < (relative_distances[-1] + 2):
@@ -113,7 +120,6 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
                     count = 0  # 重置计数器
             else:
                 count = 0  # 如果条件不满足，则重置计数器
-
 
 def estimate_3d_target(initial_guess, drone_positions, relative_distances):
     """
