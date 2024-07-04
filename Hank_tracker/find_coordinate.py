@@ -307,31 +307,6 @@ def map_estimation(past_target_coordinates, current_guess, drone_positions, rela
         print(f"Optimization failed: {result.message}")
         return current_guess
 
-# 2024/03/17 Maximum Likelihood Estimation
-
-
-def mle_method(initial_guess, drone_positions, relative_distances, noise_variance=1.0):
-    def likelihood_function(target_position):
-        log_likelihood = 0
-        for drone_position, d_relative in zip(drone_positions, relative_distances):
-            distance = np.linalg.norm(
-                np.array(drone_position) - np.array(target_position))
-            # 高斯噪聲下的似然函數，這裡使用對數似然來避免乘積下溢
-            log_likelihood += -0.5 * np.log(2 * np.pi * noise_variance) - (
-                (distance - d_relative) ** 2) / (2 * noise_variance)
-        # 最大化似然函數等同於最小化負的似然函數
-        return -log_likelihood
-
-    options = {'maxiter': 1000, 'disp': False}
-    result = minimize(likelihood_function, initial_guess,
-                      method='L-BFGS-B', options=options)
-
-    if result.success:
-        return result.x
-    else:
-        print(f"Optimization failed: {result.message}")
-        return None
-
 def save_data_to_csv_with_timestamp(tracker_coordinate, relative_distances, past_target_coordinates):
     # Get the current date and time
     now = datetime.datetime.now()
