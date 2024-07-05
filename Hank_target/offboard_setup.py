@@ -40,7 +40,7 @@ async def start_drones(drones, boids, height):
 
         print("-- Taking off")
         await drones_takeoff(drones, height)
-        await asyncio.sleep(10)
+        await asyncio.sleep(1000)
 
         print("initial boids")
         await initial_boids(drones, boids)
