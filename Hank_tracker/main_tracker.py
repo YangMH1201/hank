@@ -37,7 +37,7 @@ async def main():
 
     await offboard_setup.set_drone_velocity(uavs[0], 0.0, 0.0, 0.0)
     await offboard_setup.get_drone_long_lat(uavs, drone_lat_long)
-    await offboard_setup.local_position(uavs, drone_lat_long)
+    await offboard_setup.get_drone_local_pos(uavs, drone_lat_long)
     await asyncio.sleep(0.1)
 
     """ uwb status check """
