@@ -66,7 +66,7 @@ async def drones_takeoff(drones, height):
     for drone in drones:
         await drone.action.set_takeoff_altitude(height)
         await drone.action.takeoff()
-        await asyncio.sleep(0.01)
+        await asyncio.sleep(1)
 
 
 async def drones_return_and_land(drones):
