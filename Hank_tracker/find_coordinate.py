@@ -64,7 +64,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
         if distance >=20:
             break
         # target_position = estimate_3d_target(initial_guess, tracker_coordinate[:], relative_distances[:])
-        target_position = gradient_descent_method(
+        target_position = estimate_3d_target(
             initial_guess, tracker_coordinate[-10:], relative_distances[-10:])
         velocity = PD_velocity(
             relative_distances, initial_velocity, velocity_distance)
@@ -81,7 +81,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
             velocity = max(0.0, min(velocity, 1.0))
             Vx, Vy, Vz = follow_me(
                 tracker_coordinate[-1], target_position, velocity, relative_distances[-1], velocity_distance)
-            Vz = max(-0.2, min(0.2, Vz))
+            # Vz = max(-0.2, min(0.2, Vz))
         print(f"--------------------------------------------------")
         print(f"predict target_coordinate: {target_position}")
 
@@ -103,6 +103,8 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
         past_target_coordinates.append(target_position)
         number += 1
 
+        initial_guess = target_position
+        
         # 检查列表是否至少有5个元素
         if len(relative_distances) >= 5:
             # 计算最后五个元素的和
