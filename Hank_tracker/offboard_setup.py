@@ -112,10 +112,14 @@ async def local_position(drone, coordinate):
     async for position in drone.telemetry.position_velocity_ned():
         local_x = position.position.east_m
         local_y = position.position.north_m
-        local_z = -position.position.down_m  # 转换为相对高度
+        # local_z = -position.position.down_m  # 转换为相对高度
         await asyncio.sleep(0.01)
-        coordinate.append([local_x, local_y, local_z])
         break
+    async for position in drone.telemetry.position():
+        local_z = position.relative_altitude_m
+        await asyncio.sleep(0.01)
+        break
+    coordinate.append([local_x, local_y, local_z])
 
 
 async def set_drone_velocity(drone, velocity_N, velocity_E, velocity_D):
