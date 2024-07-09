@@ -30,6 +30,9 @@ async def main():
     uav_tracker = System()
     uavs = [uav_tracker]
     drone_lat_long = list()
+    tracker_coordinate = []
+    relative_distances = []
+    past_target_coordinates = []  # 存儲過去的target_coordinates
 
     """ Start Algo initailization """
     await offboard_setup.start_drones(uavs, drone_lat_long, tracker_height)
@@ -52,7 +55,7 @@ async def main():
     print("UWB info stable...")
     
     # Algorithm to update the target
-    await find_coordinate.start_mission(uavs, drone_lat_long, uwb_info)
+    await find_coordinate.start_mission(uavs, drone_lat_long, uwb_info, tracker_coordinate, relative_distances, past_target_coordinates)
 
     # close to the target
     print("Mission Complete!")
