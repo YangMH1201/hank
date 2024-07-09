@@ -26,15 +26,15 @@ def get_uwb_dist(uwb_info):
     return uwb_dist
 
 
-async def start_mission(uavs, drone_lat_long, uwb_info):
+async def start_mission(uavs, drone_lat_long, uwb_info, tracker_coordinate, relative_distances, past_target_coordinates):
     uav_tracker = uavs[0]
     interval = 0.1
     # initialize paramters
-    tracker_coordinate = []
-    relative_distances = []
+    # tracker_coordinate = []
+    # relative_distances = []
+    # past_target_coordinates = []  # 存儲過去的target_coordinates
     coordinates = []
     initial_guess = [0.0, 0.0, 3.0]
-    past_target_coordinates = []  # 存儲過去的target_coordinates
 
     velocity_distance = 1
     stop_distance = 2.5
