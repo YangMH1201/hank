@@ -3,6 +3,8 @@ from mavsdk import System
 import offboard_setup
 import find_coordinate
 import time
+import csv
+from datetime import datetime
 from uwb_read import UwbModule
 
 def get_uwb_dist(uwb_info):
@@ -65,6 +67,12 @@ async def main():
 
     print("Landing...")
     await offboard_setup.drones_land(uavs)
+
+    # Save data to CSV
+    current_time = datetime.now().strftime("%Y%m%d%H%M%S")
+    filename = f"output_{current_time}.csv"
+    save_to_csv(filename, tracker_coordinate, relative_distances, past_target_coordinates)
+    print(f"Data saved to {filename}")
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
