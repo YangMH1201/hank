@@ -9,8 +9,8 @@ import time
 async def main():
 
     # initialize paramters
-    target_height = 2.0
-    approach_distance = 2.0
+    target_height = 3.0
+    approach_distance = 2.5
     velocity_North = 0.1
     velocity_East = 0.0
     velocity_down = 0.0
