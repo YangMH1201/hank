@@ -81,7 +81,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info):
             velocity = max(0.0, min(velocity, 1.0))
             Vx, Vy, Vz = follow_me(
                 tracker_coordinate[-1], target_position, velocity, relative_distances[-1], velocity_distance)
-            # Vz = max(-0.2, min(0.2, Vz))
+            Vz = max(-0.2, min(0.2, Vz))
         print(f"--------------------------------------------------")
         print(f"predict target_coordinate: {target_position}")
 
