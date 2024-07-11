@@ -58,7 +58,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info, tracker_coordinate, rela
         else:
             stop_number = 0
 
-        if stop_number >= 5:
+        if stop_number >= 2:
             save_data_to_csv_with_timestamp(tracker_coordinate, relative_distances, past_target_coordinates)
             break  # 如果距离小于停止距离，则结束循环
         if distance >=20:
