@@ -37,7 +37,7 @@ async def start_mission(uavs, drone_lat_long, uwb_info, tracker_coordinate, rela
     initial_guess = [0.0, 0.0, 3.0]
 
     velocity_distance = 1
-    stop_distance = 2.5
+    stop_distance = 3.0
     number = 0
     stop_number = 0
     count = 0
