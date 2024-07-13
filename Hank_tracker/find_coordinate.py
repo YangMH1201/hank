@@ -171,7 +171,7 @@ def PD_velocity(distance, current_velocity, stop_distance):
     current_distance = distance[-1]
     last_distance = distance[-2]
     # 計算誤差
-    error = current_distance - stop_distance
+    error = current_distance - velocity_distance
 
     # 計算誤差的變化率（這裡簡化為當前速度）
     error_derivative = current_distance - last_distance
@@ -182,7 +182,7 @@ def PD_velocity(distance, current_velocity, stop_distance):
     velocity = kp * error - kd * error_derivative
 
     # 如果當前距離小於或等於停止距離，則停止
-    if current_distance <= stop_distance:
+    if current_distance <= velocity_distance:
         velocity = 0.0
 
     return velocity
